@@ -3,7 +3,6 @@ defmodule OpenFeature.Providers.LaunchdarklyProvider do
   A provider for Launchdarkly.
   """
   @behaviour OpenFeature.Provider
-  alias OpenFeature.Providers.LaunchdarklyProvider
   defstruct [:name, :sdk_key]
 
   # def child_spec(opts) do
@@ -16,17 +15,17 @@ defmodule OpenFeature.Providers.LaunchdarklyProvider do
   # end
 
   def new(sdk_key) do
-    %OpenFeature.Providers.LaunchdarklyProvider{
+    %__MODULE__{
       name: String.to_atom(UUID.uuid4()),
       sdk_key: sdk_key
     }
   end
 
-  def set_name(%LaunchdarklyProvider{} = opts, name) do
+  def set_name(%__MODULE__{} = opts, name) do
     Map.put(opts, :name, name)
   end
 
-  def set_sdk_key(%LaunchdarklyProvider{} = opts, sdk_key) when is_binary(sdk_key) do
+  def set_sdk_key(%__MODULE__{} = opts, sdk_key) when is_binary(sdk_key) do
     Map.put(opts, :sdk_key, sdk_key)
   end
 
@@ -44,11 +43,11 @@ defmodule OpenFeature.Providers.LaunchdarklyProvider do
     :ok
   end
 
-  def init(%LaunchdarklyProvider{sdk_key: sdk_key, name: nil}) do
-    init(%LaunchdarklyProvider{sdk_key: sdk_key, name: :default})
+  def init(%__MODULE__{sdk_key: sdk_key, name: nil}) do
+    init(%__MODULE__{sdk_key: sdk_key, name: :default})
   end
 
-  def init(%LaunchdarklyProvider{sdk_key: sdk_key, name: name}) do
+  def init(%__MODULE__{sdk_key: sdk_key, name: name}) do
     case :ldclient.start_instance(
            String.to_charlist(sdk_key),
            name,
@@ -71,7 +70,7 @@ defmodule OpenFeature.Providers.LaunchdarklyProvider do
   end
 
   def get_boolean_value(
-        %OpenFeature.Providers.LaunchdarklyProvider{} = opts,
+        %__MODULE__{} = opts,
         name,
         default,
         context
@@ -81,7 +80,7 @@ defmodule OpenFeature.Providers.LaunchdarklyProvider do
   end
 
   def get_string_value(
-        %OpenFeature.Providers.LaunchdarklyProvider{} = opts,
+        %__MODULE__{} = opts,
         name,
         default,
         context
@@ -91,7 +90,7 @@ defmodule OpenFeature.Providers.LaunchdarklyProvider do
   end
 
   def get_number_value(
-        %OpenFeature.Providers.LaunchdarklyProvider{} = opts,
+        %__MODULE__{} = opts,
         name,
         default,
         context
