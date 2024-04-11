@@ -3,23 +3,27 @@ defmodule OpenFeature do
   [OpenFeature is an open specification that provides a vendor-agnostic,
   community-driven API for feature flagging that works with your favorite feature flag management tool.](https://openfeature.dev)
 
+  This is an Elixir implementation of the OpenFeature spec.
+
+  ## Getting Started
+
   ```elixir
-    ldProviderConfig =
+    ld_provider_config =
       OpenFeature.Providers.LaunchdarklyProvider.new()
       |> OpenFeature.Providers.LaunchdarklyProvider.set_sdk_key(System.get_env("LD_SDK_KEY"))
 
     OpenFeature.set_provider(
       OpenFeature.Providers.LaunchdarklyProvider,
-      ldProviderConfig
+      ld_provider_config
     )
 
-    globalContext =
+    global_context =
       OpenFeature.Context.new_targeted_context("user-dov", %{
         kind: "user-other",
         name: "Dov"
       })
 
-    OpenFeature.set_global_context(globalContext)
+    OpenFeature.set_global_context(global_context)
 
     # Create a client using the default provider
     client = OpenFeature.Client.new()
